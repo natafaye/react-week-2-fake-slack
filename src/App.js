@@ -1,45 +1,65 @@
 import React, { Component } from 'react'
-import ChannelList from './ChannelList';
+import AddChannelForm from './AddChannelForm';
+import Channel from './Channel';
+import Sidebar from './Sidebar'
 
 export default class App extends Component {
+
     constructor(props) {
         super(props);
-
         this.state = {
-            channelList: []
+            channels: [
+                {
+                    id: 0,
+                    name: "previous-class-recordings",
+                    hasUnreadPosts: false
+                },
+                {
+                    id: 3,
+                    name: "random",
+                    hasUnreadPosts: true
+                },
+                {
+                    id: 4,
+                    name: "general",
+                    hasUnreadPosts: false
+                }
+            ],
+            selectedChannel: null
         }
     }
 
-    handleCreateChannel = () => {
-        // We're using the same static data for every channel we make for simplicity
-        const newChannel = {
-            name: "New Channel",
-            description: "fdjsklfdjs",
-            public: true
-        }
+    setSelectedChannel = (channel) => {
+        // NEVER DO THIS
+        //this.state.selectedChannel = channel;
 
-        // BAD
-        //this.state.channelList.push(newChannel);
+        this.setState({ selectedChannel: channel });
+    }
 
-        
-        // GOOD
+    addChannel = (channel) => {
+        // NEVER DO THIS
+        //this.state.channels.push(channel);
+
+        // PERFECTLY GOOD WAY
         // this.setState(state => {
-        //     const newChannelList = [ ...state.channelList ];
-        //     newChannelList.push(newChannel);
-        //     return { channelList: newChannelList }
-        // });
+        //     //const copiedChannels = this.state.channels.slice();
+        //     const copiedChannels = [...this.state.channels];
+        //     copiedChannels.push(channel);
+        //     return { channels: copiedChannels }
+        // })
 
-        // BETTER
-        this.setState(state => ({
-            channelList: state.channelList.concat( [ newChannel ] )
-        }))
+        // FANCY WAY
+        this.setState( state => ({ channels: state.channels.concat([ channel ]) }) )
     }
 
     render() {
         return (
-            <div>
-                <p>Number of Channels: { this.state.channelList.length }</p>
-                <ChannelList channelListData={ this.state.channelList } onCreateChannel={ this.handleCreateChannel } />
+            <div className="container">
+                <div className="row">
+                    <Sidebar channelList={this.state.channels} onChannelSelected={this.setSelectedChannel} />
+                    {/* <Channel channel={this.state.selectedChannel} /> */}
+                    <AddChannelForm onSubmit={this.addChannel} />
+                </div>
             </div>
         )
     }
