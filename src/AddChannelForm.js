@@ -11,33 +11,47 @@ export default class AddChannelForm extends Component {
         }
     }
 
+    onNameChanged = (event) => {
+        this.setState(state => {
+            // NO GOOD
+            //state.formData.name = "fdsfdsf"
+
+            const copyOfFormData = { ...state.formData };
+            copyOfFormData.name = event.target.value;
+            return { formData: copyOfFormData }
+        })
+    }
+    
+    onDescriptionChanged = (event) => {
+        this.setState(state => {
+            // NO GOOD
+            //state.formData.name = "fdsfdsf"
+
+            const copyOfFormData = { ...state.formData };
+            copyOfFormData.description = event.target.value;
+            return { formData: copyOfFormData }
+        })
+    }
+
     onSaveButtonClicked = () => {
-        const channel = {
-            id: 6,
+        const newChannel = {
+            id: 0, // no good
             name: this.state.formData.name,
             description: this.state.formData.description,
-            hasUnreadPosts: false
+            messages: []
         }
-        this.props.onSubmit(channel)
+        this.props.onSubmit(newChannel)
+        this.setState({ formData: { name: "", description: "" }})
     }
-
-    handleNameInputChanged = (event) => {
-        this.setState( state => ({ formData: { ...state.formData, name: event.target.value } }) )
-    }
-
-    handleDescriptionInputChanged = (event) => {
-        this.setState( state => ({ formData: { ...state.formData, description: event.target.value } }) )
-    }
-
 
     render() {
         return (
             <div className="col">
                 <label>Name:</label>
-                <input type="text" className="form-control" value={this.state.formData.name} onChange={ this.handleNameInputChanged } />
+                <input type="text" className="form-control" value={this.state.formData.name} onChange={this.onNameChanged}/>
                 <label>Description:</label>
-                <input type="text" className="form-control" value={this.state.formData.description} onChange={ this.handleDescriptionInputChanged } />
-                <button onClick={this.onSaveButtonClicked} className="btn btn-primary">Save</button>
+                <input type="text" className="form-control" value={this.state.formData.description} onChange={this.onDescriptionChanged}/>
+                <button className="btn btn-primary" type="button" onClick={this.onSaveButtonClicked}>Save</button>
             </div>
         )
     }
