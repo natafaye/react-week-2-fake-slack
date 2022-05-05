@@ -2,14 +2,15 @@ import React, { Component } from 'react'
 
 class SidebarChannelLink extends Component {
 
-    onChannelClick = () => {
-        this.props.onChannelSelected(this.props.channel)
+    onChannelLinkClick = () => {
+        // call that function passed through props
+        this.props.setSelectedChannelId(this.props.channelProp.id);
     }
 
     render() {
         return (
             <li >
-                <button className="btn btn-link text-white" onClick={this.onChannelClick}>#{ this.props.channel.name }</button>
+                <button onClick={this.onChannelLinkClick} className="btn btn-link text-white">#{ this.props.channelProp.name }</button>
             </li>
         )
     }
@@ -21,12 +22,9 @@ export default class Sidebar extends Component {
             <div className="col-3 bg-dark text-light">
                 <h2>Flack</h2>
                 <ul className="list-unstyled">
-                    { this.props.channelListProp.map( channel => 
-                        <SidebarChannelLink channel={channel} key={channel.id} onChannelSelected={this.props.onChannelSelected} />
-                    )}
+                    { this.props.channelList.map(channelParameter => <SidebarChannelLink key={channelParameter.id} channelProp={channelParameter} setSelectedChannelId={this.props.setSelectedChannelId} />)  }
                 </ul>
             </div>
         )
     }
 }
-

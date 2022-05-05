@@ -11,47 +11,34 @@ export default class AddChannelForm extends Component {
         }
     }
 
-    onNameChanged = (event) => {
+    onNameInputChange = (event) => {
         this.setState(state => {
-            // NO GOOD
-            //state.formData.name = "fdsfdsf"
-
-            const copyOfFormData = { ...state.formData };
+            const copyOfFormData = { ...state.formData }
             copyOfFormData.name = event.target.value;
             return { formData: copyOfFormData }
         })
     }
-    
-    onDescriptionChanged = (event) => {
-        this.setState(state => {
-            // NO GOOD
-            //state.formData.name = "fdsfdsf"
 
-            const copyOfFormData = { ...state.formData };
+    onDescriptionInputChange = (event) => {
+        this.setState(state => {
+            const copyOfFormData = { ...state.formData }
             copyOfFormData.description = event.target.value;
             return { formData: copyOfFormData }
         })
     }
 
-    onSaveButtonClicked = () => {
-        const newChannel = {
-            id: 0, // no good
-            name: this.state.formData.name,
-            description: this.state.formData.description,
-            messages: []
-        }
-        this.props.onSubmit(newChannel)
-        this.setState({ formData: { name: "", description: "" }})
+    onSubmitButtonClick = () => {
+        this.props.onAddChannel(this.state.formData);
     }
 
     render() {
         return (
             <div className="col">
                 <label>Name:</label>
-                <input type="text" className="form-control" value={this.state.formData.name} onChange={this.onNameChanged}/>
+                <input type="text" className="form-control" onChange={this.onNameInputChange} value={this.state.formData.name} />
                 <label>Description:</label>
-                <input type="text" className="form-control" value={this.state.formData.description} onChange={this.onDescriptionChanged}/>
-                <button className="btn btn-primary" type="button" onClick={this.onSaveButtonClicked}>Save</button>
+                <textarea className="form-control" onChange={this.onDescriptionInputChange} value={this.state.formData.description} />
+                <button className="btn btn-primary" onClick={this.onSubmitButtonClick}>Submit</button>
             </div>
         )
     }
